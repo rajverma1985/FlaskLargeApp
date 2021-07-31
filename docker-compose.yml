@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  flaskapp:
+    container_name: flaskapp
+    restart: always
+    build: ./flaskapp
+    ports:
+      - "8000:8000"
+    command: gunicorn -w 2 -b 0.0.0.0:8000 run:app
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - flaskapp
